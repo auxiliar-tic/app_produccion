@@ -1,0 +1,1 @@
+# se definen los endpoints que el frontend usara (POST /login GET /transformadores POST /produccion)

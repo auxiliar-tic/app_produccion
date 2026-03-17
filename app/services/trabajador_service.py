@@ -1,0 +1,1 @@
+# Se define la logica del sistema (validar login, guardar produccion, buscar transformadores, etc.)

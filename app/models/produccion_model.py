@@ -1,0 +1,1 @@
+# Este archivo define la estructura de los datos, que campos tendra cada objeto
