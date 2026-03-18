@@ -3,6 +3,7 @@
 from pydantic import BaseModel
 
 class Usuario(BaseModel):
-    username: str
-    password: str
-    role: str
+    nombre : str
+    usuario : int
+    password : str
+    rol : str 

@@ -30,7 +30,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 def require_role(rol_requerido: str):
 
     def role_checker(user = Depends(get_current_user)):
-        if user["role"] != rol_requerido: 
+        if user["rol"] != rol_requerido: 
             raise HTTPException(status_code=403, detail="Acceso Denegado")
         return user
     return role_checker

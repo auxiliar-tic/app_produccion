@@ -1,0 +1,23 @@
+# se definen los endpoints que el frontend usara (POST /login GET /transformadores POST /produccion)
+
+from fastapi import APIRouter, Depends
+from app.models.usuario_model import Usuario
+from app.services import usuario_service
+from app.utils.dependencies import require_role
+
+router = APIRouter(prefix="/usuarios")
+
+#CREAR USUARIO (solo admin)
+@router.post("/")
+def crear(
+    data: Usuario,
+    user = Depends(require_role("admin")) #solo usuarios con token pueden registrar
+):
+    return usuario_service.crear_usuario(data)
+
+#LISTAR USUARIOS (solo admin)
+@router.get("/listar")
+def listar(
+        user = Depends(require_role("admin")) #solo usuarios con token pueden registrar
+    ): 
+    return usuario_service.obtener_usuarios()

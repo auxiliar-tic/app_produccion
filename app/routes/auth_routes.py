@@ -2,13 +2,10 @@
 
 from fastapi import APIRouter
 from app.services.auth_service import login
+from app.models.auth_model import Login
 
 router = APIRouter()
 
 @router.post("/login")
-def login_user(data: dict):
-
-    username = data.get("username")
-    password = data.get("password")
-
-    return login(username, password)
+def login_user(data: Login):
+    return login(data.usuario, data.password)
