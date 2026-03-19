@@ -1,5 +1,6 @@
 # Se define la logica del sistema (validar login, guardar produccion, buscar transformadores, etc.)
 
+#CODIGO PARA QUE EL ADMIN PUEDA CREAR USUARIOS Y LISTARLOS, SOLO EL ADMIN PUEDE HACER ESTO
 from app.config.database import db
 from app.utils.security import hash_password
 

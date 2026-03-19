@@ -1,4 +1,6 @@
-# se definen los endpoints que el frontend usara (POST /login GET /transformadores POST /produccion)
+#se definen los endpoints que el frontend usara (POST /login GET /transformadores POST /produccion)
+
+#CODIGO PARA QUE EL ADMIN PUEDA CREAR USUARIOS Y LISTARLOS, SOLO EL ADMIN PUEDE HACER ESTO
 
 from fastapi import APIRouter, Depends
 from app.models.usuario_model import Usuario
