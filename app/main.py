@@ -1,7 +1,7 @@
 # archivo de inicio donde ejecutamos uvicorn app.main:app --reload para iniciar el servidor
 
 from fastapi import FastAPI
-from app.routes import auth_routes, trabajador_routes, ausencia_routes
+from app.routes import auth_routes, trabajador_routes, ausencia_routes, historial_routes
 from app.routes import transformador_routes, usuario_routes, dashboard_routes
 from app.routes import produccion_routes, proceso_routes, reporte_routes
 
@@ -16,6 +16,7 @@ app.include_router(ausencia_routes.router)
 app.include_router(usuario_routes.router)
 app.include_router(reporte_routes.router)
 app.include_router(dashboard_routes.router)
+app.include_router(historial_routes.router)
 
 @app.get("/")
 def home():

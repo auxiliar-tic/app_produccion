@@ -1,3 +1,5 @@
+# se definen los endpoints que el frontend usara (POST /login GET /transformadores POST /produccion)
+
 from fastapi import APIRouter, Depends
 from app.services import dashboard_service
 from app.utils.dependencies import require_role
