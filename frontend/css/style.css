@@ -1,0 +1,75 @@
+body{
+    margin: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/*contenedor principal*/
+
+.container{
+    display: flex;
+    height: 100vh;
+}
+
+/*Seccion izquierda*/
+
+.image-section{
+    flex: 1;
+}
+
+.image-section img{
+    width:100%;
+    height:101%;
+    object-fit: cover;
+}
+
+/*Seccion derecha*/
+.logo{
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    width: 120px;
+}
+
+.login-section{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background:#f4f6fb ;
+}
+
+.login-container{
+    padding:35px;
+    border-radius: 12px;
+    width: 400px;
+    height: 300px;
+    text-align: center;
+}
+
+.login-container h2{
+    margin-bottom: 40px;
+}
+
+
+input{
+    display: block;
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 35px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+button{
+    width: 100%;
+    padding: 10px;
+    background:#0f62fe;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0043ce;
+}

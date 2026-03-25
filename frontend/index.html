@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Transformadores</title>
+  <link rel="stylesheet" href="../frontend/css/style.css">
+</head>
+<body>
+  <div class="container">
+      <div class="image-section">
+        <img src="../frontend/imagenes/fyr.jpg">
+      </div>
+      
+      <div class="login-section">
+
+          <img class="logo" src="../frontend/imagenes/fyr.png">
+
+        <div class="login-container">
+          <h2>Iniciar Sesion</h2>
+    
+          <form id="loginForm">
+
+            <input id="username" placeholder="Usuario" required>
+            <input id="password" type="password" placeholder="Contraseña" required>
+            <button onclick="login()">Acceder</button>
+
+          </form>
+
+          <p id="LoginStatus" class="status"></p>
+          <div id="status"></div>
+        </div> 
+      </div> 
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>
