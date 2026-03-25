@@ -13,3 +13,11 @@ def registrar(
     user = Depends(get_current_user) #solo usuarios con token pueden registrar
     ):
     return produccion_service.registrar_produccion(data,user)
+
+@router.put("{id}")
+def actualizar(id:str, datos: dict, user = Depends(get_current_user)):
+    return produccion_service.editar_produccion(id,datos)
+
+@router.delete("{id}")
+def eliminar(id:str, user = Depends(get_current_user)):
+    return produccion_service.eliminar_produccion(id)

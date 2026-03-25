@@ -2,6 +2,7 @@
 
 from app.config.database import db
 from datetime import datetime
+from bson import ObjectId
 
 # REGISTRAR UNA PRODUCCION
 
@@ -35,3 +36,21 @@ def registrar_produccion(data, user):
     db.produccion.insert_one(produccion)
 
     return {"mensaje": "Producción registrada"}
+
+def editar_produccion(id, datos):
+
+    result = db.produccion.update_one({"_id": ObjectId(id)}, {"$set": datos})
+
+    if result.modified_count == 0:
+        return {"error": "No se pudo actualizara"}
+    else:
+        return {"mensaje": "Registro actualizado"}
+    
+def eliminar_produccion(id):
+
+    result = db.produccion.delete_one({"_id": ObjectId(id)})
+
+    if result.deleted_count == 0:
+        return {"error": "No se pudo eliminar"}
+    else:
+        return {"mensaje": "Registro eliminado"}
