@@ -18,7 +18,7 @@ def crear(
     return usuario_service.crear_usuario(data)
 
 #LISTAR USUARIOS (solo admin)
-@router.get("/listar")
+@router.get("/")
 def listar(
         user = Depends(require_role("admin")) #solo usuarios con token pueden registrar
     ): 
