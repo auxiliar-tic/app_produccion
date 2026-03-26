@@ -26,7 +26,7 @@ def crear_usuario(data):
 # Listar usuarios
 
 def obtener_usuarios():
-    return list(db.usuarios.find({}, {"_id": 0, "password": 0})) #password:0 se oculta la contraseña
+    return list(db.usuarios.find({}, {"_id": 0})) #password:0 se oculta la contraseña
 
 def editar_usuarios(id, datos):
 
