@@ -3,18 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../frontend/css/dashboard.css">
     <title>Dashboard</title>
 </head>
 <body>
-    
-    <h1>Bienvenido</h1>
-    <h3 id="{nombre}"></h3>
+    <div class="layout">
 
-    <button onclick="verProduccion()">Ver Produccion</button>
+        <!--MENU-->
+        <nav class="sidebar">
+            <img src="../frontend/imagenes/logo_fyr_blanco.png.jpeg" alt="logo_fyr">
+            <h2>Menu</h2>
+            <button class="sidebar__button" onclick="cargarProduccion()">Produccion</button>
+            <button class="sidebar__button" onclick="cargarUsuarios()">Usuarios</button>
+            <button class="sidebar__button"onclick="logout()">Salir</button>
+        </nav>
 
-    <pre id="resultado"></pre>
+        <!--CONTENIDO-->
+        <div class="content" id="content">
+            
+            <div class="main-box">
 
-    <script src="../frontend/js/api.js"></script>
-    <script src="../frontend/js/dashboard.js"></script>
+                <h1>Bienvenido</h1>
+                <h3 id="nombre"></h3>
+
+                <div id ="tabla-container"></div>
+
+            </div>
+
+        </div>
+
+        <script src="../frontend/js/api.js"></script>
+        <script src="../frontend/js/dashboard.js"></script>
+    </div>
 </body>
 </html>
