@@ -126,24 +126,73 @@ td {
     top: 0; 
     left: 0;
     width: 100%; 
+    background-color: rgba(0, 0, 0, 0.5);
     height: 100%;
-    background: rgba(0,0,0,0.5);
     z-index: 9999;
 }
 
-.modal-content {
+.modal_content {
     background: white;
-    padding: 20px;
-    width: 300px;
+    padding: 50px;
+    width: 400px;
+    height: 300px;
     margin: 10% auto;
     border-radius: 10px;
-    position:relative;
     z-index: 10000;
+    background-color: rgba(2, 2, 43, 0.5);
+    color: white;
 }
 
-.modal-buttons {
-    display: flex;
+.modal_select{
+    width: 103%;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    margin-top: 8px;
+}
+
+.modal_input{
+    width: 100%;
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    margin-top: 8px;
+}
+
+
+.modal_buttons {
     justify-content: space-between;
     margin-top: 10px;
+    width: 100%;
+    margin: 100px;
+    margin-left: 125px;
 }
 
+
+.button--guardar{
+    background: green;
+    border-style: none;
+    border-radius: 2px;
+    padding:7px;
+    color: white;
+}
+
+.button--cancelar{
+    background: red;
+    border-style: none;
+    border-radius: 2px;
+    padding:7px;
+    color: white;
+}
+
+.button--guardar:hover{
+    background:#5BB566;
+    cursor: pointer
+}
+
+.button--cancelar:hover{
+    background:#ED4D37 ;
+    cursor: pointer;
+}

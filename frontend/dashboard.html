@@ -37,20 +37,20 @@
     </div>
 
     <div id="modalEditar" class="modal">
-        <div class="modal-content">
-             <h3>Editar Producción</h3>
+        <div class="modal_content">
+             <h1>Editar Producción</h1>
 
               <input type="hidden" id="edit_id">
 
                <label>Proceso:</label>
-               <select id="edit_proceso"></select>
+               <select class="modal_select" id="edit_proceso"></select>
 
                <label>Fecha:</label>
-               <input type="date" id="edit_fecha">
+               <input class="modal_input" type="date" id="edit_fecha">
 
-               <div class="modal-buttons">
-                    <button onclick="guardarEdicion()">Guardar</button>
-                    <button onclick="cerrarModal()">Cancelar</button>
+               <div class="modal_buttons">
+                    <button class="button--guardar" onclick="guardarEdicion()">Guardar</button>
+                    <button class="button--cancelar" onclick="cerrarModal()">Cancelar</button>
                </div>
         </div>
 </div>
