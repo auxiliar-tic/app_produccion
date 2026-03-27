@@ -45,6 +45,8 @@ async function cargarUsuarios() {
 // 🎨 TABLA PRODUCCIÓN
 function renderTablaProduccion(data) {
 
+    const rol = localStorage.getItem("rol");
+
     let html = `
         <h2>Producción</h2>
         <table>
@@ -65,7 +67,7 @@ function renderTablaProduccion(data) {
                 <td>${item.nombre || ""}</td>
                 <td>${item.transformador_serial || ""}</td>
                 <td>
-                    <button class="button-eliminar" onclick="eliminar('${item._id}')">Eliminar</button>
+                   ${rol === "admin" ? `<button class="button-eliminar" onclick="eliminar('${item._id}')">Eliminar</button>` : ""}
                     <button class="button-editar" onclick="editar('${item._id}')">Editar</button>
                 </td>
             </tr>
@@ -310,3 +312,68 @@ async function eliminarUsuario(usuario) {
 
     cargarUsuarios();
 }   
+
+// CARGAR TRANSFORMADORES
+
+async function cargarTransformadores() {
+
+    const res = await fetch(`${API_URL}/transformadores/`, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    const data = await res.json();
+
+    renderTablaTransformadores(data);
+}   
+
+function renderTablaTransformadores(data) { 
+
+    let html = `
+    <h2>Transformadores</h2>
+
+    <button class="button__crear" onclick="abrirModalTransformador()">Crear Nuevo Transformador ➕</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>item</th>
+                <th>Lote</th>
+                <th>Serial</th>
+                <th>Potencia</th>
+                <th>Voltaje</th>
+                <th>Marca</th>
+                <th>Fase</th>
+                <th>Cliente</th>
+                <th>Servicio</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+    `;
+
+    data.forEach(item =>{
+        html += `
+            <tr>
+                <td>${item.item}</td>
+                <td>${item.lote}</td>
+                <td>${item.serial}</td>
+                <td>${item.potencia}</td>
+                <td>${item.voltaje}</td>
+                <td>${item.marca}</td>
+                <td>${item.fase}</td>
+                <td>${item.cliente}</td>
+                <td>${item.servicio}</td>
+                <td>
+                    <button class="button-editar" onclick="editarTransformador('${item._id}')">Editar</button>
+                    <button class="button-eliminar" onclick="eliminarTransformador('${item._id}')">Eliminar</button>
+                </td>
+            </tr>
+        `;
+    });
+
+    html += "</table>";
+
+    document.getElementById("tabla-container").innerHTML = html;
+}
