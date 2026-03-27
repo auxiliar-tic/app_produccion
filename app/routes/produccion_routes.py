@@ -4,6 +4,8 @@ from fastapi import APIRouter, Depends
 from app.models.produccion_model import Produccion
 from app.services import produccion_service
 from app.utils.dependencies import get_current_user
+from app.config.database import db
+from bson import ObjectId
 
 router = APIRouter(prefix="/produccion")
 
@@ -14,10 +16,18 @@ def registrar(
     ):
     return produccion_service.registrar_produccion(data,user)
 
-@router.put("{id}")
-def actualizar(id:str, datos: dict, user = Depends(get_current_user)):
-    return produccion_service.editar_produccion(id,datos)
+from bson import ObjectId
 
-@router.delete("{id}")
+@router.put("/{id}")
+def actualizar(id: str, data: dict, user=Depends(get_current_user)):
+
+    db.produccion.update_one(
+        {"_id": ObjectId(id)},
+        {"$set": data}
+    )
+
+    return {"msg": "Actualizado"}
+
+@router.delete("/{id}")
 def eliminar(id:str, user = Depends(get_current_user)):
     return produccion_service.eliminar_produccion(id)

@@ -23,6 +23,9 @@ img{
     background: #121314;
     color: white;
     padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
 }
 
 .sidebar h2{
@@ -41,6 +44,11 @@ img{
     border-radius: 5px;
 }
 
+.button-salir{
+    background: red;
+    margin-top: 300px;
+}
+
 .sidebar__button:hover{
     background: #555;
     cursor: pointer;
@@ -48,13 +56,14 @@ img{
 
 /*CONTENIDO*/
 .content{
+    margin-left: 260px;
     flex: 1;
     height: 100vh;
     overflow-y: auto;
     padding: 40px;
-    background-color: #f4f6f9;
     display: flex;
     justify-content: center;
+    overflow: visible;
 }
 
 .main-box {
@@ -84,3 +93,57 @@ td {
     padding: 10px;
     border-bottom: 1px solid #e5e7eb;
 }
+
+.button-eliminar{
+    background: red;
+    border-style: none;
+    border-radius: 2px;
+    padding:7px;
+    color: white;
+}
+
+.button-eliminar:hover{
+    background:#ED4D37 ;
+    cursor: pointer;
+}
+
+.button-editar{
+    background: green;
+    border-style: none;
+    border-radius: 2px;
+    padding:7px;
+    color: white;
+}
+
+.button-editar:hover{
+    background:#5BB566;
+    cursor: pointer;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    width: 300px;
+    margin: 10% auto;
+    border-radius: 10px;
+    position:relative;
+    z-index: 10000;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+

@@ -3,10 +3,12 @@ from app.config.database import db
 #Obtener la produccion
 def obtener_produccion():
 
-    data = list(db.produccion.find({},{"_id":0}))
+    data = list(db.produccion.find())
 
-    #llenar con nombre de usuario
     for item in data:
+
+        # 🔥 convertir _id
+        item["_id"] = str(item["_id"])
 
         usuario = item.get("usuario")
 
@@ -23,11 +25,12 @@ def obtener_produccion():
 def produccion_por_usuario(usuario):
 
     data = list(db.produccion.find(
-        {"usuario":usuario},
-        {"_id":0}
+        {"usuario":usuario}
     ))
 
     for item in data:
+
+        item["_id"] = str(item["_id"])
 
         usuario = item.get("usuario")
 
@@ -45,10 +48,11 @@ def produccion_por_fecha(fecha):
 
     data = list(db.produccion.find(
         {"fecha":fecha},
-        {"_id":0}
     ))
 
     for item in data:
+
+        item["_id"] = str(item["_id"])
 
         usuario = item.get("usuario")
 

@@ -17,5 +17,9 @@ def crear_proceso(data):
     return {"mensaje": "Proceso creado"}
 
 def obtener_procesos():
+        data = list(db.procesos.find())
 
-    return list(db.procesos.find({}, {"_id": 0}))
+        for item in data:
+            item["_id"] = str(item["_id"])
+
+        return data

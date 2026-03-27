@@ -15,7 +15,7 @@
             <h2>Menu</h2>
             <button class="sidebar__button" onclick="cargarProduccion()">Produccion</button>
             <button class="sidebar__button" onclick="cargarUsuarios()">Usuarios</button>
-            <button class="sidebar__button"onclick="logout()">Salir</button>
+            <button class="sidebar__button button-salir"onclick="logout()">Salir</button>
         </nav>
 
         <!--CONTENIDO-->
@@ -35,5 +35,25 @@
         <script src="../frontend/js/api.js"></script>
         <script src="../frontend/js/dashboard.js"></script>
     </div>
+
+    <div id="modalEditar" class="modal">
+        <div class="modal-content">
+             <h3>Editar Producción</h3>
+
+              <input type="hidden" id="edit_id">
+
+               <label>Proceso:</label>
+               <select id="edit_proceso"></select>
+
+               <label>Fecha:</label>
+               <input type="date" id="edit_fecha">
+
+               <div class="modal-buttons">
+                    <button onclick="guardarEdicion()">Guardar</button>
+                    <button onclick="cerrarModal()">Cancelar</button>
+               </div>
+        </div>
+</div>
+ 
 </body>
 </html>
