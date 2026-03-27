@@ -34,10 +34,13 @@
 
         <script src="../frontend/js/api.js"></script>
         <script src="../frontend/js/dashboard.js"></script>
-    </div>
+   </div>
 
-    <div id="modalEditar" class="modal">
-        <div class="modal_content">
+
+     <!-- VENTANA MODAL PARA ELIMINAR Y EDITAR -->
+
+       <div id="modalEditar" class="modal">
+           <div class="modal_content">
              <h1>Editar Producción</h1>
 
               <input type="hidden" id="edit_id">
@@ -47,13 +50,57 @@
 
                <label>Fecha:</label>
                <input class="modal_input" type="date" id="edit_fecha">
-
+  
                <div class="modal_buttons">
                     <button class="button--guardar" onclick="guardarEdicion()">Guardar</button>
                     <button class="button--cancelar" onclick="cerrarModal()">Cancelar</button>
                </div>
-        </div>
-</div>
- 
+           </div>
+       </div>
+
+
+     <!-- VENTANA MODAL PARA CREAR USUARIOS -->
+
+        <div id="modalUsuario" class="modal">
+            <div class="modal_content">
+             <h1>Crear Usuarios</h1>
+
+               <input class="modal_input" type="text" id="user_nombre" placeholder="Nombre">
+               <input class="modal_input" type="number" id="user_usuario" placeholder="cedula">
+               <input class="modal_input" type="password" id="user_password" placeholder="contraseña">
+               
+               <select class="modal_select" id="user_role">
+                   <option value="admin">Admin</option>
+                   <option value="user">Operario</option>
+               </select>
+
+               <div class="modal_buttons">
+                    <button class="button--guardar" onclick="guardarUsuario()">Guardar</button>
+                    <button class="button--cancelar" onclick="cerrarModalUsuario()">Cancelar</button>
+               </div>
+           </div>
+       </div>
+
+       <!-- VENTANA MODAL PARA EDITAR USUARIOS -->
+
+        <div id="modalEditarUsuario" class="modal">
+            <div class="modal_content">
+             <h1>Editar Usuarios</h1>
+
+               <input type="hidden" id="edit_user_id">
+
+               <input class="modal_input" type="text" id="edit_user_nombre" placeholder="Nombre">
+               
+               <select class="modal_select" id="edit_user_role">
+                   <option value="admin">Admin</option>
+                   <option value="operario">Operario</option>
+               </select>
+
+               <div class="modal_buttons">
+                    <button class="button--guardar" onclick="guardarEdicionUsuario()">Guardar</button>
+                    <button class="button--cancelar" onclick="cerrarModalEditarUsuario()">Cancelar</button>
+               </div>
+           </div>
+       </div>
 </body>
 </html>

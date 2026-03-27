@@ -135,8 +135,8 @@ td {
     background: white;
     padding: 50px;
     width: 400px;
-    height: 300px;
-    margin: 10% auto;
+    height: 380px;
+    margin: 50px 50px 50px 390px;
     border-radius: 10px;
     z-index: 10000;
     background-color: rgba(2, 2, 43, 0.5);
@@ -194,5 +194,21 @@ td {
 
 .button--cancelar:hover{
     background:#ED4D37 ;
+    cursor: pointer;
+}
+
+/*MODULO USUARIOS*/
+
+.button__crear{
+    background:#080270;
+    border-style: none;
+    border-radius: 2px;
+    padding:8px;
+    color: white;
+    margin: 0px 0px 20px 10px;
+}
+
+.button__crear:hover{
+    background:#36337A ;
     cursor: pointer;
 }

@@ -82,11 +82,15 @@ function renderTablaUsuarios(data) {
 
     let html = `
         <h2>Usuarios</h2>
+
+        <button class="button__crear" onclick="abrirModalUsuario()">Crear Nuevo Usuario ➕</button>
+
         <table>
             <tr>
                 <th>Nombre</th>
                 <th>Usuario</th>
                 <th>Rol</th>
+                <th>Acciones</th>
             </tr>
     `;
 
@@ -96,6 +100,10 @@ function renderTablaUsuarios(data) {
                 <td>${item.nombre}</td>
                 <td>${item.usuario}</td>
                 <td>${item.rol}</td>
+                <td>
+                    <button class="button-eliminar" onclick="eliminar('${item._id}')">Eliminar</button>
+                    <button class="button-editar" onclick="editar('${item._id}')">Editar</button>
+                </td>
             </tr>
         `;
     });
@@ -204,3 +212,101 @@ async function obtenerProcesos() {
 
     return await res.json();
 }
+
+
+//CREAR USUARIOS
+async function guardarUsuario() {
+
+    const nombre = document.getElementById("user_nombre").value;
+    const usuario = document.getElementById("user_usuario").value;
+    const password = document.getElementById("user_password").value;
+    const rol = document.getElementById("user_rol").value;
+
+    try {
+        const res = await fetch(`${API_URL}/usuarios/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                nombre,
+                usuario,
+                password,
+                rol
+            })
+        });
+
+        const data = await res.json();
+
+        alert("Usuario creado correctamente");
+
+        cerrarModalUsuario();
+        cargarUsuarios();
+
+    } catch (error) {
+        console.error(error);
+        alert("Error al crear usuario");
+    }
+}
+
+
+//MODAL USUARIOS
+
+function abrirModalUsuario(){
+    document.getElementById("modalUsuario").style.display = "block";
+}
+
+function cerrarModalUsuario(){
+    document.getElementById("modalUsuario").style.display = "none";
+}
+
+//EDITAR Y ELIMINAR USUARIOS
+
+function editarUsuario(usuario) {
+
+    document.getElementById("edit_user_usuario").value = usuario;
+
+    document.getElementById("modalEditarUsuario").style.display = "block";
+}
+
+function cerrarModalEditarUsuario() {
+    document.getElementById("modalEditarUsuario").style.display = "none";
+}
+
+async function guardarEdicionUsuario() {
+
+    const usuario = document.getElementById("edit_user_usuario").value;
+    const password = document.getElementById("edit_user_password").value;
+    const rol = document.getElementById("edit_user_rol").value;
+
+    const res = await fetch(`${API_URL}/usuarios/${usuario}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            password,
+            rol
+        })
+    });
+
+    alert("Usuario Actualizado");
+
+    cerrarModalEditarUsuario();
+    cargarUsuarios();
+}
+
+async function eliminarUsuario(usuario) {
+    if (!confirm("¿Desea eliminar el registro?")) return;
+
+    await fetch(`${API_URL}/usuarios/${usuario}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    });
+
+    cargarUsuarios();
+}   
