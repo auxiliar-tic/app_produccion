@@ -13,9 +13,9 @@
         <nav class="sidebar">
             <img src="../frontend/imagenes/logo_fyr_blanco.png.jpeg" alt="logo_fyr">
             <h2>Menu</h2>
-            <button class="sidebar__button" onclick="cargarProduccion()">Produccion</button>
-            <button class="sidebar__button" onclick="cargarUsuarios()">Usuarios</button>
-            <button class="sidebar__button" onclick="cargarTransformadores()">Transformadores</button>
+            <button id="btnProduccion" class="sidebar__button" onclick="cargarProduccion()">Produccion</button>
+            <button id="btnUsuarios" class="sidebar__button" onclick="cargarUsuarios()">Usuarios</button>
+            <button id="btnTransformadores" class="sidebar__button" onclick="cargarTransformadores()">Transformadores</button>
             <button class="sidebar__button button-salir"onclick="logout()">Salir</button>
         </nav>
 
@@ -33,14 +33,9 @@
 
         </div>
 
-        <script src="../frontend/js/api.js"></script>
-        <script src="../frontend/js/dashboard.js"></script>
-   </div>
+     <!-- VENTANA MODAL PARA ELIMINAR Y EDITAR PRODUCCION -->
 
-
-     <!-- VENTANA MODAL PARA ELIMINAR Y EDITAR -->
-
-       <div id="modalEditar" class="modal">
+       <div id="modalEditarProduccion" class="modal">
            <div class="modal_content">
              <h1>Editar Producción</h1>
 
@@ -70,7 +65,7 @@
                <input class="modal_input" type="number" id="user_usuario" placeholder="cedula">
                <input class="modal_input" type="password" id="user_password" placeholder="contraseña">
                
-               <select class="modal_select" id="user_role">
+               <select class="modal_select" id="user_rol">
                    <option value="admin">Admin</option>
                    <option value="user">Operario</option>
                </select>
@@ -91,6 +86,10 @@
                <input type="hidden" id="edit_user_id">
 
                <input class="modal_input" type="text" id="edit_user_nombre" placeholder="Nombre">
+
+               <input class="modal_input" type="text" id="edit_usuario" placeholder="usuario">
+
+               <input class="modal_input" type="password" id="edit_user_password" placeholder="contraseña"></input>
                
                <select class="modal_select" id="edit_user_role">
                    <option value="admin">Admin</option>
@@ -103,5 +102,9 @@
                </div>
            </div>
        </div>
+    </div>
+
+    <script src="../frontend/js/api.js"></script>
+    <script src="../frontend/js/dashboard.js"></script>
 </body>
 </html>

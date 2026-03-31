@@ -24,6 +24,7 @@ async function login(){
         if(data.token){
             localStorage.setItem("token", data.token)
             localStorage.setItem("name", data.name)
+            localStorage.setItem("rol", data.rol)
 
             console.log("login exitoso");
 

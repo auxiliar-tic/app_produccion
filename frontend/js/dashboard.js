@@ -1,3 +1,28 @@
+window.onload = function () {
+
+    const rol = localStorage.getItem("rol");
+    const nombre = localStorage.getItem("name");
+
+    document.getElementById("nombre").innerText = nombre;
+
+    if (rol !== "admin") {
+
+        ocultarElemento("btnUsuarios");
+        ocultarElemento("btnTransformadores");
+
+        cargarProduccion();
+
+    } else {
+
+        cargarProduccion();
+    }
+};
+
+function ocultarElemento(id){
+    const el = document.getElementById(id);
+    if (el) el.style.display = "none";
+}   
+
 const token = localStorage.getItem("token");
 
 document.getElementById("nombre").innerText =
@@ -51,10 +76,16 @@ function renderTablaProduccion(data) {
         <h2>Producción</h2>
         <table>
             <tr>
-                <th>Fecha</th>
+                <th>Item</th>
+                <th>Lote</th>
+                <th>Serie</th>
+                <th>Potencia</th>
+                <th>Voltaje</th>
+                <th>Marca</th>
+                <th>Fase</th>
                 <th>Proceso</th>
-                <th>Usuario</th>
-                <th>Transformador</th>
+                <th>Fecha</th>
+                <th>Nombre</th>
                 <th>Acciones</th>
             </tr>
     `;
@@ -62,10 +93,16 @@ function renderTablaProduccion(data) {
     data.forEach(item => {
         html += `
             <tr>
-                <td>${item.fecha || ""}</td>
-                <td>${item.proceso || ""}</td>
-                <td>${item.nombre || ""}</td>
+                <td>${item.numero || ""}</td>
+                <td>${item.lote || ""}</td>
                 <td>${item.transformador_serial || ""}</td>
+                <td>${item.potencia || ""}</td>
+                <td>${item.voltaje || ""}</td>
+                <td>${item.marca || ""}</td>
+                <td>${item.fase || ""}</td>
+                <td>${item.proceso || ""}</td>
+                <td>${item.fecha || ""}</td>
+                <td>${item.nombre || ""}</td>
                 <td>
                    ${rol === "admin" ? `<button class="button-eliminar" onclick="eliminar('${item._id}')">Eliminar</button>` : ""}
                     <button class="button-editar" onclick="editar('${item._id}')">Editar</button>
@@ -99,12 +136,16 @@ function renderTablaUsuarios(data) {
     data.forEach(item => {
         html += `
             <tr>
-                <td>${item.nombre}</td>
-                <td>${item.usuario}</td>
-                <td>${item.rol}</td>
+                <td>${item.nombre || ""}</td>
+                <td>${item.usuario || ""}</td>
+                <td>${item.rol || ""}</td>
                 <td>
-                    <button class="button-eliminar" onclick="eliminar('${item._id}')">Eliminar</button>
-                    <button class="button-editar" onclick="editar('${item._id}')">Editar</button>
+                    <button class="button-eliminar" onclick="eliminarUsuario('${item.usuario}')">Eliminar</button>
+                    <button class="button-editar" onclick="editarUsuario(
+                    '${item.usuario}',
+                    '${item.nombre}',
+                    '${item.rol}'
+                    )">Editar</button>
                 </td>
             </tr>
         `;
@@ -169,11 +210,11 @@ async function editar(id) {
         select.innerHTML += `<option value="${p.nombre}">${p.nombre}</option>`;
     });
 
-    document.getElementById("modalEditar").style.display = "block";
+    document.getElementById("modalEditarProduccion").style.display = "block";
 }
 
 function cerrarModal() {
-    document.getElementById("modalEditar").style.display = "none";
+    document.getElementById("modalEditarProduccion").style.display = "none";
 }
 
 async function guardarEdicion() {
@@ -220,9 +261,17 @@ async function obtenerProcesos() {
 async function guardarUsuario() {
 
     const nombre = document.getElementById("user_nombre").value;
-    const usuario = document.getElementById("user_usuario").value;
+    const usuarioInput = document.getElementById("user_usuario").value;
+    const usuario = usuarioInput ? Number(usuarioInput) : null;
     const password = document.getElementById("user_password").value;
     const rol = document.getElementById("user_rol").value;
+
+    console.log(nombre, usuario, password, rol); // 🔥 DEBUG
+
+    if (!nombre || !usuario || !password) {
+        alert("Campos obligatorios");
+        return;
+    }
 
     try {
         const res = await fetch(`${API_URL}/usuarios/`, {
@@ -241,14 +290,15 @@ async function guardarUsuario() {
 
         const data = await res.json();
 
+        console.log("RESPUESTA:", data); // 🔥 CLAVE
+
         alert("Usuario creado correctamente");
 
         cerrarModalUsuario();
         cargarUsuarios();
 
     } catch (error) {
-        console.error(error);
-        alert("Error al crear usuario");
+        console.error("ERROR:", error);
     }
 }
 
@@ -265,9 +315,13 @@ function cerrarModalUsuario(){
 
 //EDITAR Y ELIMINAR USUARIOS
 
-function editarUsuario(usuario) {
+function editarUsuario(usuario,nombre,rol) {
 
-    document.getElementById("edit_user_usuario").value = usuario;
+    document.getElementById("edit_user_id").value = usuario;
+    document.getElementById("edit_user_nombre").value = nombre;
+    document.getElementById("edit_usuario").value = usuario;
+    document.getElementById("edit_user_role").value = rol;
+    document.getElementById("edit_user_password").value = "";
 
     document.getElementById("modalEditarUsuario").style.display = "block";
 }
@@ -278,23 +332,33 @@ function cerrarModalEditarUsuario() {
 
 async function guardarEdicionUsuario() {
 
-    const usuario = document.getElementById("edit_user_usuario").value;
+    const usuario = document.getElementById("edit_user_id").value;
+    const nombre = document.getElementById("edit_user_nombre").value;
+    const nuevo_usuario = document.getElementById("edit_usuario").value;
     const password = document.getElementById("edit_user_password").value;
-    const rol = document.getElementById("edit_user_rol").value;
+    const rol = document.getElementById("edit_user_role").value;
 
-    const res = await fetch(`${API_URL}/usuarios/${usuario}`, {
+    const body = {
+        nombre,
+        rol,
+        usuario: Number(nuevo_usuario)
+    };
+
+    // 🔥 solo si escribe contraseña
+    if (password) {
+        body.password = password;
+    }
+
+    await fetch(`${API_URL}/usuarios/${usuario}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({
-            password,
-            rol
-        })
+        body: JSON.stringify(body)
     });
 
-    alert("Usuario Actualizado");
+    alert("Usuario actualizado");
 
     cerrarModalEditarUsuario();
     cargarUsuarios();

@@ -7,16 +7,31 @@ def obtener_produccion():
 
     for item in data:
 
-        # 🔥 convertir _id
         item["_id"] = str(item["_id"])
 
+        # 👤 usuario
         usuario = item.get("usuario")
+        user = db.usuarios.find_one({"usuario": usuario})
+        item["nombre"] = user["nombre"] if user else "Sin usuario"
 
-        if usuario:
-            user = db.usuarios.find_one({"usuario": usuario})
-            item["nombre"] = user["nombre"] if user else "Desconocido"
+        # 🔌 transformador
+        serial = item.get("transformador_serial")
+        trans = db.transformadores.find_one({"serial": serial})
+
+        if trans:
+            item["serial"] = trans.get("serial")
+            item["potencia"] = trans.get("potencia")
+            item["voltaje"] = trans.get("voltaje")
+            item["cliente"] = trans.get("cliente")
+            item["lote"] = trans.get("lote")
+            item["fase"] = trans.get("fase")
         else:
-            item["nombre"] = "Sin usuario"
+            item["serial"] = "N/A"
+            item["potencia"] = ""
+            item["voltaje"] = ""
+            item["cliente"] = ""
+            item["lote"] = ""
+            item["fase"] = ""
 
     return data
 
