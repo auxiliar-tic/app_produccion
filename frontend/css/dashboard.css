@@ -132,11 +132,21 @@ td {
 }
 
 .modal_content {
-    background: white;
     padding: 50px;
     width: 400px;
     height: 380px;
     margin: 50px 50px 50px 390px;
+    border-radius: 10px;
+    z-index: 10000;
+    background-color: rgba(2, 2, 43, 0.5);
+    color: white;
+}
+
+.modal_transformador{
+    padding: 50px;
+    width: 600px;
+    height: 380px;
+    margin: 50px 50px 50px 350px;
     border-radius: 10px;
     z-index: 10000;
     background-color: rgba(2, 2, 43, 0.5);
@@ -161,6 +171,10 @@ td {
     margin-top: 8px;
 }
 
+.input--transformador{
+    padding: 2px;
+    margin-top: 3px;
+}
 
 .modal_buttons {
     justify-content: space-between;
@@ -168,6 +182,10 @@ td {
     width: 100%;
     margin: 100px;
     margin-left: 125px;
+}
+
+.modal_buttonst{
+    margin-left: 200px;
 }
 
 

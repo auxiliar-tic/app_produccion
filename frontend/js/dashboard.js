@@ -430,7 +430,17 @@ function renderTablaTransformadores(data) {
                 <td>${item.cliente}</td>
                 <td>${item.servicio}</td>
                 <td>
-                    <button class="button-editar" onclick="editarTransformador('${item._id}')">Editar</button>
+                    <button class="button-editar" onclick="editarTransformador(
+                    '${item._item}',
+                    '${item._lote}',
+                    '${item._serial}',
+                    '${item._potencia}',
+                    '${item._voltaje}',
+                    '${item._marca}',
+                    '${item._fase}',
+                    '${item._cliente}',
+                    '${item._servicio}'
+                    )">Editar</button>
                     <button class="button-eliminar" onclick="eliminarTransformador('${item._id}')">Eliminar</button>
                 </td>
             </tr>
@@ -440,4 +450,114 @@ function renderTablaTransformadores(data) {
     html += "</table>";
 
     document.getElementById("tabla-container").innerHTML = html;
+}
+
+/* MODAL CREAR TRANSFORMADOR */
+
+function abrirModalTransformador() {
+    document.getElementById("modalTransformador").style.display = "block";
+}
+
+function cerrarModalTransformador() {
+    document.getElementById("modalTransformador").style.display = "none";
+}
+
+async function guardarTransformador() {
+    const item = document.getElementById("item").value;
+    const lote = document.getElementById("lote").value;
+    const serial = document.getElementById("serial").value;
+    const potencia = document.getElementById("potencia").value;
+    const voltaje = document.getElementById("voltaje").value;
+    const marca = document.getElementById("marca").value;
+    const fase = document.getElementById("fase").value;
+    const cliente = document.getElementById("cliente").value;
+    const servicio = document.getElementById("servicio").value;
+
+    if (!item || !serial){
+        alert("Item y Serial son obligatorios");
+        return;
+    }
+    
+    await fetch(`${API_URL}/transformadores/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            item,
+            lote,
+            serial,
+            potencia,
+            voltaje,
+            marca,
+            fase,
+            cliente,
+            servicio
+        })
+    });
+
+    alert("Transformador creado correctamente");
+    cerrarModalTransformador();
+    cargarTransformadores();
+}
+
+/* MODAL EDITAR TRANSFORMADOR */
+
+function editarTransformador(id, item, lote, serial, potencia, voltaje, marca, fase, cliente, servicio) {
+    document.getElementById("edit_transformador_id").value = id;
+    document.getElementById("item").value = item;
+    document.getElementById("lote").value = lote;
+    document.getElementById("serial").value = serial;
+    document.getElementById("potencia").value = potencia;
+    document.getElementById("voltaje").value = voltaje;
+    document.getElementById("marca").value = marca;
+    document.getElementById("fase").value = fase;
+    document.getElementById("cliente").value = cliente;
+    document.getElementById("servicio").value = servicio;
+
+    document.getElementById("modalEditarTransformador").style.display = "block";
+}
+
+function cerrarModalEditarTransformador() {
+    document.getElementById("modalEditarTransformador").style.display = "none";
+}
+
+async function guardarEdicionTransformador() {
+
+    const id = document.getElementById("edit_transformador_id").value;
+
+    const item = document.getElementById("item").value;
+    const lote = document.getElementById("lote").value;
+    const serial = document.getElementById("serial").value;
+    const potencia = document.getElementById("potencia").value;
+    const voltaje = document.getElementById("voltaje").value;
+    const marca = document.getElementById("marca").value;
+    const fase = document.getElementById("fase").value;
+    const cliente = document.getElementById("cliente").value;
+    const servicio = document.getElementById("servicio").value;
+
+    await fetch(`${API_URL}/transformadores/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            item,
+            lote,
+            serial,
+            potencia,
+            voltaje,
+            marca,
+            fase,
+            cliente,
+            servicio
+        })
+    });
+
+    alert("Transformador editado correctamente");
+
+    cerrarModalEditarTransformador();
+    cargarTransformadores();
 }

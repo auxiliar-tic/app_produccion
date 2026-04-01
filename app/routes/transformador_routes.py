@@ -10,8 +10,11 @@ router = APIRouter(prefix="/transformadores")
 
 #CREAR TRANSFORMADOR
 @router.post("/")
-def crear(data: Transformador):
-    return transformador_service.crear_transformador(data)
+def crear_transformador(data: dict, user=Depends(require_role("admin"))):
+
+    db.transformadores.insert_one(data)
+
+    return {"msg": "Transformador creado"}
 
 #LISTAR LOS TRANSFORMDORES
 @router.get("/")
@@ -23,13 +26,17 @@ def listar():
 def buscar(serial: str):
     return transformador_service.buscar_transformador(serial)
 
-@router.put("/{serial}")
-def actualizar(serial: str, data: dict, user=Depends(require_role("admin"))):
+@router.put("/{id}")
+def actualizar_transformador(id: str, data: dict, user=Depends(require_role("admin"))):
+
+    from bson import ObjectId
+
     db.transformadores.update_one(
-        {"serial": serial},
+        {"_id": ObjectId(id)},
         {"$set": data}
     )
-    return {"msg": "Actualizado"}
+
+    return {"msg": "Transformador actualizado"}
 
 
 @router.delete("/{serial}")

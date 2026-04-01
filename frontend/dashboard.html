@@ -102,6 +102,54 @@
                </div>
            </div>
        </div>
+
+         <!-- VENTANA MODAL PARA CREAR TRANSFORMADORES -->
+
+        <div id="modalTransformador" class="modal">
+            <div class="modal_transformador">
+             <h1>Nuevo Transformador</h1>
+
+               <input class="modal_input input--transformador" type="number" id="item" placeholder="Item">
+               <input class="modal_input input--transformador" type="text" id="lote" placeholder="Lote">
+               <input class="modal_input input--transformador" type="number" id="serial" placeholder="Serial">
+               <input class="modal_input input--transformador" type="number" id="potencia" placeholder="Potencia">
+               <input class="modal_input input--transformador" type="number" id="voltaje" placeholder="Voltaje">
+               <input class="modal_input input--transformador" type="text" id="marca" placeholder="Marca">
+               <input class="modal_input input--transformador" type="text" id="fase" placeholder="Fase">
+               <input class="modal_input input--transformador" type="text" id="cliente" placeholder="Cliente">
+               <input class="modal_input input--transformador" type="text" id="servicio" placeholder="Servicio">
+
+               <div class="modal_buttonst">
+                    <button class="button--guardar button--transformador" onclick="guardarTransformador()">Guardar</button>
+                    <button class="button--cancelar button--transformador" onclick="cerrarModalTransformador()">Cancelar</button>
+               </div>
+           </div>
+       </div>
+       
+        <!-- VENTANA MODAL PARA EDITAR TRANSFORMADORES -->
+
+        <div id="modalEditarTransformador" class="modal">
+            <div class="modal_transformador">
+             <h1>Editar Transformador</h1>
+
+               <input type="hidden" id="edit_transformador_id">
+
+               <input class="modal_input input--transformador" type="number" id="item" placeholder="Item">
+               <input class="modal_input input--transformador" type="text" id="lote" placeholder="Lote">
+               <input class="modal_input input--transformador" type="number" id="serial" placeholder="Serial">
+               <input class="modal_input input--transformador" type="number" id="potencia" placeholder="Potencia">
+               <input class="modal_input input--transformador" type="number" id="voltaje" placeholder="Voltaje">
+               <input class="modal_input input--transformador" type="text" id="marca" placeholder="Marca">
+               <input class="modal_input input--transformador" type="text" id="fase" placeholder="Fase">
+               <input class="modal_input input--transformador" type="text" id="cliente" placeholder="Cliente">
+               <input class="modal_input input--transformador" type="text" id="servicio" placeholder="Servicio">
+
+               <div class="modal_buttonst">
+                    <button class="button--guardar button--transformador" onclick="guardarEdicionTransformador()">Guardar</button>
+                    <button class="button--cancelar button--transformador" onclick="cerrarModalEditarTransformador()">Cancelar</button>
+               </div>
+           </div>
+       </div>
     </div>
 
     <script src="../frontend/js/api.js"></script>
