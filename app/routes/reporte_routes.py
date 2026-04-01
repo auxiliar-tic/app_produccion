@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from app.services import reporte_service
-from app.utils.dependencies import require_role
+from app.utils.dependencies import require_role, get_current_user
 
 router = APIRouter(prefix="/reportes")
 
@@ -8,7 +8,7 @@ router = APIRouter(prefix="/reportes")
 
 #ver todo
 @router.get("/")
-def obtener_todos(user = Depends(require_role("admin"))):
+def obtener_todos(user = Depends(get_current_user)):
     return reporte_service.obtener_produccion()
 
 #filtrar por usuario
