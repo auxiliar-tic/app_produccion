@@ -68,13 +68,20 @@ async function cargarUsuarios() {
 }
 
 // 🎨 TABLA PRODUCCIÓN
-function renderTablaProduccion(data) {
+function renderTablaProduccion(data = null) {
 
     const rol = localStorage.getItem("rol");
 
     let html = `
         <h2>Producción</h2>
-        <table>
+
+        <input type="number" id="buscar_serial" placeholder="Buscar por serial">
+        <button class="button-buscar" onclick="buscarPorSerial()">Buscar</button>
+    `;
+    
+    if (data && data.length > 0) {
+        html += `
+                <table>
             <tr>
                 <th>Item</th>
                 <th>Lote</th>
@@ -87,15 +94,18 @@ function renderTablaProduccion(data) {
                 <th>Fecha</th>
                 <th>Nombre</th>
                 <th>Acciones</th>
-            </tr>
-    `;
-
-    data.forEach(item => {
+            </tr>     
+        `;
+    }
+    
+    if(data && data.length > 0) {
+        data.forEach(item => {
+            
         html += `
             <tr>
                 <td>${item.numero || ""}</td>
                 <td>${item.lote || ""}</td>
-                <td>${item.transformador_serial || ""}</td>
+                <td>${item.serial || ""}</td>
                 <td>${item.potencia || ""}</td>
                 <td>${item.voltaje || ""}</td>
                 <td>${item.marca || ""}</td>
@@ -110,6 +120,7 @@ function renderTablaProduccion(data) {
             </tr>
         `;
     });
+    }
 
     html += "</table>";
 
@@ -431,15 +442,16 @@ function renderTablaTransformadores(data) {
                 <td>${item.servicio}</td>
                 <td>
                     <button class="button-editar" onclick="editarTransformador(
-                    '${item._item}',
-                    '${item._lote}',
-                    '${item._serial}',
-                    '${item._potencia}',
-                    '${item._voltaje}',
-                    '${item._marca}',
-                    '${item._fase}',
-                    '${item._cliente}',
-                    '${item._servicio}'
+                    '${item._id}',
+                    '${item.item}',
+                    '${item.lote}',
+                    '${item.serial}',
+                    '${item.potencia}',
+                    '${item.voltaje}',
+                    '${item.marca}',
+                    '${item.fase}',
+                    '${item.cliente}',
+                    '${item.servicio}'
                     )">Editar</button>
                     <button class="button-eliminar" onclick="eliminarTransformador('${item._id}')">Eliminar</button>
                 </td>
@@ -505,16 +517,19 @@ async function guardarTransformador() {
 /* MODAL EDITAR TRANSFORMADOR */
 
 function editarTransformador(id, item, lote, serial, potencia, voltaje, marca, fase, cliente, servicio) {
+
+    console.log("ID Recibido:", id);
+
     document.getElementById("edit_transformador_id").value = id;
-    document.getElementById("item").value = item;
-    document.getElementById("lote").value = lote;
-    document.getElementById("serial").value = serial;
-    document.getElementById("potencia").value = potencia;
-    document.getElementById("voltaje").value = voltaje;
-    document.getElementById("marca").value = marca;
-    document.getElementById("fase").value = fase;
-    document.getElementById("cliente").value = cliente;
-    document.getElementById("servicio").value = servicio;
+    document.getElementById("edit_item").value = item;
+    document.getElementById("edit_lote").value = lote;
+    document.getElementById("edit_serial").value = serial;
+    document.getElementById("edit_potencia").value = potencia;
+    document.getElementById("edit_voltaje").value = voltaje;
+    document.getElementById("edit_marca").value = marca;
+    document.getElementById("edit_fase").value = fase;
+    document.getElementById("edit_cliente").value = cliente;
+    document.getElementById("edit_servicio").value = servicio;
 
     document.getElementById("modalEditarTransformador").style.display = "block";
 }
@@ -527,15 +542,15 @@ async function guardarEdicionTransformador() {
 
     const id = document.getElementById("edit_transformador_id").value;
 
-    const item = document.getElementById("item").value;
-    const lote = document.getElementById("lote").value;
-    const serial = document.getElementById("serial").value;
-    const potencia = document.getElementById("potencia").value;
-    const voltaje = document.getElementById("voltaje").value;
-    const marca = document.getElementById("marca").value;
-    const fase = document.getElementById("fase").value;
-    const cliente = document.getElementById("cliente").value;
-    const servicio = document.getElementById("servicio").value;
+    const item = document.getElementById("edit_item").value;
+    const lote = document.getElementById("edit_lote").value;
+    const serial = document.getElementById("edit_serial").value;
+    const potencia = document.getElementById("edit_potencia").value;
+    const voltaje = document.getElementById("edit_voltaje").value;
+    const marca = document.getElementById("edit_marca").value;
+    const fase = document.getElementById("edit_fase").value;
+    const cliente = document.getElementById("edit_cliente").value;
+    const servicio = document.getElementById("edit_servicio").value;
 
     await fetch(`${API_URL}/transformadores/${id}`, {
         method: "PUT",
@@ -560,4 +575,60 @@ async function guardarEdicionTransformador() {
 
     cerrarModalEditarTransformador();
     cargarTransformadores();
+}
+
+/* ELIMINAR TRANSFORMADOR */
+
+async function eliminarTransformador(id) {
+    if (!confirm("¿Desea eliminar el transformador?")){
+         return;
+    }
+
+    try {
+        await fetch(`${API_URL}/transformadores/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        alert("Transformador eliminado correctamente");
+
+        cargarTransformadores();
+
+    } catch (error) {
+        console.error(error);
+        alert("Error al eliminar el transformador");
+    }
+}
+
+/*BUSCAR POR SERIAL*/
+
+async function buscarPorSerial() {
+    const serial = document.getElementById("buscar_serial").value;
+    const token = localStorage.getItem("token");
+
+    try {
+        // 🔹 traer transformador
+        const resTransformador = await fetch(`http://localhost:8000/transformadores/buscar/${serial}`, {
+            headers: { "Authorization": `Bearer ${token}` }
+        });
+
+        const transformador = await resTransformador.json();
+
+        console.log("TRANSFORMADOR:", transformador);
+
+        // 🔹 crear objeto combinado
+        const combinado = {
+            ...transformador,
+            proceso: "",
+            fecha: "",
+            nombre: ""
+        };
+
+        renderTablaProduccion([combinado]);
+
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }

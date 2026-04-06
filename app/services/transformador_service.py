@@ -1,6 +1,8 @@
 # Se define la logica del sistema (validar login, guardar produccion, buscar transformadores, etc.)
 
 from app.config.database import db
+from app.utils.dependencies import get_current_user, Depends
+from fastapi import HTTPException
 
 # CREAR TRANSFORMADOR EN LA BASE DE DATOS
 
@@ -21,21 +23,23 @@ def crear_transformador(data):
 # LISTAR LOS TRANSFORMADORES DE LA BASE DE DATOS
 
 def listar_transformadores():
+    data = list(db.transformadores.find())
 
-    transformadores = list(db.transformadores.find({},{"_id": 0}))
+    for item in data:
+        item["_id"] = str(item["_id"])  # 🔥 CLAVE
 
-    return transformadores
+    return data
 
 # BUSCAR TRANSFORMADORES EN LA BASE DE DATOS 
 
+#BUSCAR POR SERIAL EL TRANSFORMADOR
 def buscar_transformador(serial):
 
-    transformador = db.transformadores.find_one(
-        {"serial": serial},
-        {"_id": 0}
-    )
+    transformador = db.transformadores.find_one({"serial": serial})
 
     if not transformador:
         return {"error": "Transformador no encontrado"}
+
+    transformador["_id"] = str(transformador["_id"])
 
     return transformador

@@ -5,6 +5,7 @@ from app.models.transformador_model import Transformador
 from app.services import transformador_service
 from app.utils.dependencies import require_role
 from app.config.database import db
+from bson import ObjectId
 
 router = APIRouter(prefix="/transformadores")
 
@@ -22,8 +23,12 @@ def listar():
     return transformador_service.listar_transformadores()
 
 #BUSCAR POR SERIAL EL TRANSFORMADOR
-@router.get("/{serial}")
-def buscar(serial: str):
+@router.get("/buscar/{serial}")
+def buscar_transformador(
+    serial: str,
+    user=Depends(require_role(["operario", "admin"]))
+):
+
     return transformador_service.buscar_transformador(serial)
 
 @router.put("/{id}")
@@ -39,7 +44,11 @@ def actualizar_transformador(id: str, data: dict, user=Depends(require_role("adm
     return {"msg": "Transformador actualizado"}
 
 
-@router.delete("/{serial}")
-def eliminar(serial: str, user=Depends(require_role("admin"))):
-    db.transformadores.delete_one({"serial": serial})
-    return {"msg": "Eliminado"}
+@router.delete("/{id}")
+def eliminar_transformador(id: str, user=Depends(require_role("admin"))):
+
+    db.transformadores.delete_one({
+        "_id": ObjectId(id)
+    })
+
+    return {"msg": "Transformador eliminado"}

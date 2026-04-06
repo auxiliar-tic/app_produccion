@@ -27,10 +27,9 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
     
 # VALIDACION DE ROLES
     
-def require_role(rol_requerido: str):
-
-    def role_checker(user = Depends(get_current_user)):
-        if user["rol"] != rol_requerido: 
-            raise HTTPException(status_code=403, detail="Acceso Denegado")
+def require_role(roles: list):
+    def role_checker(user=Depends(get_current_user)):
+        if user["rol"] not in roles:
+            raise HTTPException(status_code=403, detail="No autorizado")
         return user
     return role_checker
